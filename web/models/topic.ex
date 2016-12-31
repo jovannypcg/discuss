@@ -4,4 +4,10 @@ defmodule Discuss.Topic do
   schema "topics" do
     field :title, :string
   end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:title])
+    |> validated_required([:title])
+  end
 end
