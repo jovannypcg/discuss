@@ -1,5 +1,5 @@
 defmodule Discuss.Topic do
-  use Discuss.web, :model
+  use Discuss.Web, :model
 
   schema "topics" do
     field :title, :string
@@ -8,6 +8,6 @@ defmodule Discuss.Topic do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title])
-    |> validated_required([:title])
+    |> validate_required([:title])
   end
 end
