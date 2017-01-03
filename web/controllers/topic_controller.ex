@@ -9,6 +9,13 @@ defmodule Discuss.TopicController do
     render conn, "new.html", changeset: changeset
   end
 
+  def index(conn, _params) do
+    topics = Repo.all(Topic)
+
+    conn
+    |> render("index.html", topics: topics)
+  end
+
   def create(conn, %{"topic" => topic}) do
     changeset = Topic.changeset(%Topic{}, topic)
 
