@@ -28,4 +28,16 @@ defmodule Discuss.TopicController do
         render conn, "new.html", changeset: err_changeset
     end
   end
+
+  def edit(conn, %{"id" => id}) do
+    topic = Repo.get Topic, id
+    changeset = Topic.changeset(topic)
+
+    conn
+    |> render("edit.html", [changeset: changeset, topic: topic])
+  end
+
+  def update(conn, %{"id" => id}) do
+    IO.inspect "UPDATING... #{id}"
+  end
 end
