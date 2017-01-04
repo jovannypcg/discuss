@@ -52,4 +52,19 @@ defmodule Discuss.TopicController do
         render conn, "edit.html", changeset: err_changeset, topic: old_topic
     end
   end
+
+  def show(conn, %{"id" => id}) do
+    conn
+    |> put_flash(:info, "Showing #{id}...")
+    |> redirect(to: topic_path(conn, :index))
+  end
+
+  def delete(conn, %{"id" => id}) do
+    Repo.get!(Topic, id)
+    |> Repo.delete!
+
+    conn
+    |> put_flash(:info, "Topic deleted")
+    |> redirect(to: topic_path(conn, :index))
+  end
 end
