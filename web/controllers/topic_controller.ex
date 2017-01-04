@@ -53,12 +53,6 @@ defmodule Discuss.TopicController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    conn
-    |> put_flash(:info, "Showing #{id}...")
-    |> redirect(to: topic_path(conn, :index))
-  end
-
   def delete(conn, %{"id" => id}) do
     Repo.get!(Topic, id)
     |> Repo.delete!
