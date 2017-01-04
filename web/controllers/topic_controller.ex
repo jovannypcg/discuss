@@ -37,7 +37,19 @@ defmodule Discuss.TopicController do
     |> render("edit.html", [changeset: changeset, topic: topic])
   end
 
-  def update(conn, %{"id" => id}) do
-    IO.inspect "UPDATING... #{id}"
+  def update(conn, %{"id" => id, "topic" => topic}) do
+    old_topic = Repo.get(Topic, id)
+    changeset =
+      old_topic
+      |> Topic.changeset(topic)
+
+    case Repo.update(changeset) do
+      {:ok, topic} ->
+        conn
+        |> put_flash(:info, "The topic was successfully updated")
+        |> redirect(to: topic_path(conn, :index))
+      {:error, err_changeset} ->
+        render conn, "edit.html", changeset: err_changeset, topic: old_topic
+    end
   end
 end
