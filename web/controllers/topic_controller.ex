@@ -1,6 +1,8 @@
 defmodule Discuss.TopicController do
   use Discuss.Web, :controller
 
+  plug :check_topic_owner when action in [:edit, :delete, :update]
+
   alias Discuss.Topic
 
   def new(conn, params) do
@@ -63,5 +65,18 @@ defmodule Discuss.TopicController do
     conn
     |> put_flash(:info, "Topic deleted")
     |> redirect(to: topic_path(conn, :index))
+  end
+
+  def check_topic_owner(conn, _params) do
+    %{params: %{"id" => topic_id}} = conn
+
+    if Repo.get(Topic, topic_id).user_id == conn.assigns.user.id do
+
+    else
+      conn
+      |> put_flash(:error, "You cannot edit that")
+      |> redirect(to: topic_path(conn, :index))
+      |> halt
+    end
   end
 end
