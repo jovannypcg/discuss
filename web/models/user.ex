@@ -7,6 +7,8 @@ defmodule Discuss.User do
     field :token, :string
 
     timestamps
+
+    has_many :topics, Discuss.Topic
   end
 
   def changeset(data, params \\ %{}) do
